@@ -1,41 +1,29 @@
-#******************************************************************************#
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: fschuber <fschuber@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/11/21 02:01:24 by fschuber          #+#    #+#              #
-#    Updated: 2014/11/23 03:56:35 by fschuber         ###   ########.fr        #
-#                                                                              #
-#******************************************************************************#
+CC = gcc
 
+FLAGS = #-Wall -Wextra -Werror -g
 
-NAME = libft.a
+SRC =	lem_in.c 
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-SRC = ft_*.c
+OBJ	= $(SRC:.c=.o)
 
-OBJ = $(SRC:.c=.o)
+LIB 	= libft/libft.a
 
-INC = Includes
+NAME = lem_in
 
-all: $(NAME)
+all:		$(NAME)
 
-$(NAME):
-	@$(CC) -I $(INC) $(CFLAGS) -c $? $(SRC)
-	@ar rc $(NAME) $? $(OBJ)
-	@ranlib $(NAME)
-	@echo "\033[32mBuilt library.\033[0m"
+$(NAME):	$(OBJ)
+	$(MAKE) -C ./libft
+	$(CC) -o $(NAME) $(FLAGS) $(OBJ) $(LIB)
+
+test:
+	git clone https://github.com/yyang42/moulitest.git
 
 clean:
-	@/bin/rm -f $(OBJ)
-	@echo "\033[32mCleaned up object files.\033[0m"
+	rm -f $(OBJ)
 
-fclean: clean
-	@/bin/rm -f $(NAME)
-	@echo "\033[32mCleaned up compiled files.\033[0m"
+fclean:	clean
+	rm -f $(NAME)
 
 re: fclean all
 

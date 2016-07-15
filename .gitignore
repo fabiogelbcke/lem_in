@@ -41,4 +41,6 @@ flycheck_*.el
 # projectiles files
 .projectile
 
+*.o
+*.a
 *.out
