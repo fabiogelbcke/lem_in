@@ -1,5 +1,11 @@
 # include "lem_in.h"
 
+void		error()
+{
+	ft_putstr("ERROR");
+	exit(1);
+}
+
 t_ant		*create_ants(char *no_of_ants_str)
 {
 	int		i;
@@ -44,7 +50,7 @@ int		alloc_graph(char **map, t_node ***graphptr)
 	while (map[i])
 	{
 		if (map[i][0] != '#' &&
-		    ft_arrlen(ft_strsplit(map[i], ' ')) != 3) // check if are numbers
+		    ft_arrlen(ft_strsplit(map[i], ' ')) != 3) // check if coords are numbers 
 			break;
 		if (map[i][0] != '#')
 			j++;
@@ -80,17 +86,50 @@ t_node **init_nodes(t_node ***graphptr, char **map, int no_nodes)
 		}
 		graph[i] = (t_node*)malloc(sizeof(t_node));
 		graph[i]->name = ft_strsplit(map[j++], ' ')[0];
+		graph[i]->connections = (int*)malloc(sizeof(int) * (no_nodes - 1));
+		for (j = 0; j < no_nodes - 2; j++)
+			graph[i]->connections[j] = -1;
 		graph[i]->startend = startend;
 		startend = 0;
 	}
-	for (i = 0; i < no_nodes; i++)
-	{
-		ft_putstr(graph[i]->name);
-		ft_putstr(" -> ");
-		ft_putnbr(graph[i]->startend);
-		ft_putchar('\n');
-	}
 	return (graph);
+}
+
+void	add_connection(t_node **graph, char *node1, char *node2)
+{
+	int i;
+	int j;
+	int k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (ft_strcmp(graph[i]->name, node1))
+		i++;
+	while (ft_strcmp(graph[j]->name, node2))
+		j++;
+	while (graph[i]->connections[k] != -1)
+		k++;
+	graph[i]->connections[k] = j;
+	k = 0;
+	while (graph[j]->connections[k] != -1)
+		k++;
+	graph[j]->connections[k] = i;
+}
+
+void	add_connections(t_node **graph, char **map)
+{
+	int i;
+
+	i = 0;
+	while (argv[i] && (argv[i][0] == '#' || ft_arrlen(ft_strsplit(map[i], ' ')) != 3))
+		i++;
+	if (!argv[i])
+		error();
+	while (argv[i])
+	{
+		if 
+	}
 }
 
 t_node  **read_graph(char **map)
@@ -102,6 +141,7 @@ t_node  **read_graph(char **map)
 	is_start_finish = 0;
 	no_nodes = alloc_graph(map, &graph);
 	graph = init_nodes(&graph, map, no_nodes);
+	add_connections(graph, map);
 	return NULL;
 }
 
