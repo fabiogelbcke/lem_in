@@ -7,9 +7,11 @@
 
 typedef struct  s_node
 {
-    int         number;
-    int         *connections;
-    int         distance_to_end;
+	char	*name;
+	int     *connections;
+	int	distance_to_end;
+	int	startend;
+    
 }               t_node;
 
 typedef struct  s_ant
