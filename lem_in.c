@@ -121,7 +121,7 @@ void	add_connections(t_node **graph, char **map)
 		if (ft_arrlen(nodes) == 2 && indexofnode(graph, nodes[0]) != -1
 			    && indexofnode(graph, nodes[1]) != -1)
 		{
-			//add_connection(graph, nodes[0], nodes[1]);
+			add_connection(graph, nodes[0], nodes[1]);
 		}
 		i++;
 	}
@@ -138,7 +138,7 @@ t_node  **read_graph(char **map)
 	is_start_finish = 0;
 	no_nodes = alloc_graph(map, &graph);
 	init_nodes(&graph, map, no_nodes);
-	//add_connections(graph, map);
+	add_connections(graph, map);
 	for (i = 0; i < no_nodes; i++)
 	{
 		ft_putstr(graph[i]->name);
@@ -146,8 +146,9 @@ t_node  **read_graph(char **map)
 		j = 0;
 		while (graph[i]->connections[j] != -1)
 		{
-			ft_putnbr(graph[i]->connections[j]);
+			ft_putstr(graph[graph[i]->connections[j]]->name);
 			ft_putstr(", ");
+			j++;
 		}
 		ft_putchar('\n');
 	}
