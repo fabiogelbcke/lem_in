@@ -19,4 +19,9 @@ typedef struct  s_ant
     int         number;
     int         position;
 }               t_ant;
+
+void		error();
+int             ft_arrlen(char **arr);
+int		indexofnode(t_node **graph, char *name);
+
 #endif

@@ -2,7 +2,8 @@ CC = gcc
 
 FLAGS = #-Wall -Wextra -Werror -g
 
-SRC =	lem_in.c 
+SRC =	lem_in.c \
+	helper_functions.c
 
 OBJ	= $(SRC:.c=.o)
 
