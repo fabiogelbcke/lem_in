@@ -96,6 +96,7 @@ void	add_connection(t_node **graph, char *node1, char *node2)
 
 	i = indexofnode(graph, node1);
 	j = indexofnode(graph, node2);
+	k = 0;
 	while (graph[i]->connections[k] != -1)
 		k++;
 	graph[i]->connections[k] = j;
