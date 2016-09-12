@@ -22,6 +22,10 @@ typedef struct  s_ant
 
 void		error();
 int             ft_arrlen(char **arr);
+int             ft_nodearrlen(t_node **arr);
 int		indexofnode(t_node **graph, char *name);
+t_ant		*create_ants(char *no_of_ants_str);
+int		alloc_graph(char **map, t_node ***graphptr);
+t_node **init_nodes(t_node ***graphptr, char **map, int no_nodes);
 
 #endif

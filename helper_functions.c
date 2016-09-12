@@ -17,6 +17,16 @@ int             ft_arrlen(char **arr)
 	return(i);
 }
 
+int		ft_nodearrlen(t_node **arr)
+{
+	int         i;
+	
+	i = 0;
+	while (arr[i])
+		i++;
+	return(i);
+}
+
 int		indexofnode(t_node **graph, char *name)
 {
 	int i;

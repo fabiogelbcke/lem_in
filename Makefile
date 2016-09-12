@@ -3,7 +3,8 @@ CC = gcc
 FLAGS = #-Wall -Wextra -Werror -g
 
 SRC =	lem_in.c \
-	helper_functions.c
+	helper_functions.c \
+	utils.c \
 
 OBJ	= $(SRC:.c=.o)
 
@@ -16,9 +17,6 @@ all:		$(NAME)
 $(NAME):	$(OBJ)
 	$(MAKE) -C ./libft
 	$(CC) -o $(NAME) $(FLAGS) $(OBJ) $(LIB)
-
-test:
-	git clone https://github.com/yyang42/moulitest.git
 
 clean:
 	rm -f $(OBJ)
