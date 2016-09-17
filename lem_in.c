@@ -24,16 +24,21 @@ void	add_connections(t_node **graph, char **map)
 	char **nodes;
 
 	i = 0;
-	while (map[i] && (map[i][0] == '#' || ft_arrlen(ft_strsplit(map[i], ' ')) != 3))
+	while (map[i] && (map[i][0] == '#' || ft_arrlen(ft_strsplit(map[i], ' ')) == 3))
 		i++;
 	if (!map[i])
 		error();
 	while (map[i])
 	{
+
 		nodes = ft_strsplit(map[i], '-');
+		ft_putstr(map[i]);
 		if (ft_arrlen(nodes) == 2 && indexofnode(graph, nodes[0]) != -1
 			    && indexofnode(graph, nodes[1]) != -1)
 		{
+			ft_putchar('\n');
+			ft_putstr(map[i]);
+			ft_putchar('\n');
 			add_connection(graph, nodes[0], nodes[1]);
 		}
 		i++;
