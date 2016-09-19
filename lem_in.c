@@ -1,5 +1,18 @@
 # include "lem_in.h"
 
+int is_path(char *str)
+{
+	char **split;
+
+	split = ft_strsplit(str, '-');
+	if (ft_arrlen(split) != 2)
+		return (0);
+	else if (!ft_isnbr(split[0]) || !ft_isnbr(split[1]))
+		return (0);
+	else
+		return (1);
+}
+
 void	add_connection(t_node **graph, char *node1, char *node2)
 {
 	int i;
@@ -32,13 +45,9 @@ void	add_connections(t_node **graph, char **map)
 	{
 
 		nodes = ft_strsplit(map[i], '-');
-		ft_putstr(map[i]);
-		if (ft_arrlen(nodes) == 2 && indexofnode(graph, nodes[0]) != -1
+		if (is_path(map[i]) && ft_arrlen(nodes) == 2 && indexofnode(graph, nodes[0]) != -1
 			    && indexofnode(graph, nodes[1]) != -1)
 		{
-			ft_putchar('\n');
-			ft_putstr(map[i]);
-			ft_putchar('\n');
 			add_connection(graph, nodes[0], nodes[1]);
 		}
 		i++;
@@ -62,18 +71,7 @@ t_node  **read_graph(char **map)
 	return graph;
 }
 
-int is_path(char *str)
-{
-	char **split;
 
-	split = ft_strsplit(str, '-');
-	if (ft_arrlen(split) != 2)
-		return (0);
-	else if (!ft_isnbr(split[0]) || !ft_isnbr(split[1]))
-		return (0);
-	else
-		return (1);
-}
 
 int		get_startend(t_node **graph, int startend)
 {
@@ -178,8 +176,9 @@ int     main(int argc, char **argv)
 	map = ft_strsplit(str, '\n');
 	//no_of_nodes = check_input(argc, map);
 	graph = read_graph(map);
-	ft_putnbr(is_reachable(graph));
-	//ants = create_ants(map[0]);
+	if (!is_reachable(graph))
+		error();
+	ants = create_ants(map[0]);
 	return (0);
 }
     
