@@ -1,24 +1,25 @@
 # include "lem_in.h"
 
-t_ant		*create_ants(char *no_of_ants_str)
+t_ant		**create_ants(char *no_of_ants_str)
 {
 	int		i;
-	t_ant		*ants;
+	t_ant		**ants;
 	int		no_of_ants;
 	
 	if (no_of_ants_str && ft_isnbr(no_of_ants_str))
 	{
 		no_of_ants = ft_atoi(no_of_ants_str);
-		ants = (t_ant*)malloc(sizeof(t_ant) * (no_of_ants + 1));
+		ants = (t_ant**)malloc(sizeof(t_ant*) * (no_of_ants + 1));
 		for (i = 0; i < no_of_ants; i++)
 		{
-			ants[i].number = i;
-			ants[i].position = 0;
+			ants[i] = malloc(sizeof(t_ant));
+			ants[i]->number = i;
+			ants[i]->position = 0;
 		}
+		ants[i] = NULL;
 		return (ants);
 	}
-	perror("Number of ants is not valid or nonexistant");
-	exit(1);
+	error();
 }
 
 
