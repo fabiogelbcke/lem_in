@@ -180,6 +180,13 @@ int     main(int argc, char **argv)
 		error();
 	ants = create_ants(map[0], get_startend(graph, 1));
 	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
+	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
+	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
+	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
+	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
+	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
+	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
+	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
 	return (0);
 }
     

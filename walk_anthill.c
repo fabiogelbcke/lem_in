@@ -59,7 +59,7 @@ void	dijkstra(t_node **graph, t_ant *ant, int start, int target)
 		remove_from_queue(&queue, j);
 		while (graph[j]->connections[i] != -1)
 		{
-			if (graph[j]->distance + graph[graph[j]->connections[i]]->weight < graph[graph[j]->connections[i]]->distance)
+			if (graph[j]->distance + graph[graph[j]->connections[i]]->weight <= graph[graph[j]->connections[i]]->distance)
 			{
 				graph[graph[j]->connections[i]]->prev = j;
 				graph[graph[j]->connections[i]]->distance = graph[j]->distance + graph[graph[j]->connections[i]]->weight;
@@ -68,6 +68,7 @@ void	dijkstra(t_node **graph, t_ant *ant, int start, int target)
 		}
 	}
 	i = target;
+	graph[graph[i]->prev]->weight++;
 	while (graph[i]->prev != -1)
 	{
 		ft_putstr(graph[i]->name);
@@ -75,6 +76,9 @@ void	dijkstra(t_node **graph, t_ant *ant, int start, int target)
 		i = graph[i]->prev;
 	}
 	ft_putstr(graph[i]->name);
+		ft_putchar('\n');
+		ft_putchar('\n');
+		ft_putchar('\n');
 		ft_putchar('\n');
 }
 
