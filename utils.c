@@ -1,11 +1,11 @@
 # include "lem_in.h"
 
-t_ant		**create_ants(char *no_of_ants_str)
+t_ant		**create_ants(char *no_of_ants_str, int start)
 {
 	int		i;
 	t_ant		**ants;
 	int		no_of_ants;
-	
+
 	if (no_of_ants_str && ft_isnbr(no_of_ants_str))
 	{
 		no_of_ants = ft_atoi(no_of_ants_str);
@@ -14,12 +14,13 @@ t_ant		**create_ants(char *no_of_ants_str)
 		{
 			ants[i] = malloc(sizeof(t_ant));
 			ants[i]->number = i;
-			ants[i]->position = 0;
+			ants[i]->position = start;
 		}
 		ants[i] = NULL;
 		return (ants);
 	}
 	error();
+	return NULL;
 }
 
 
@@ -79,8 +80,10 @@ t_node **init_nodes(t_node ***graphptr, char **map, int no_nodes)
 			for (k = 0; k < no_nodes - 2; k++)
 				graph[i]->connections[k] = -1;
 			graph[i]->startend = startend;
+			graph[i]->weight = 1;
 			startend = 0;
 		}
 	}
+	graph[i] = NULL;
 	return (graph);
 }

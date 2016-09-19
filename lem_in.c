@@ -166,7 +166,7 @@ int		is_reachable(t_node **graph)
 int     main(int argc, char **argv)
 {
 	t_node **graph;
-	t_ant *ants;
+	t_ant **ants;
 	int no_of_nodes;
 	char *str;
 	char **map;
@@ -178,7 +178,8 @@ int     main(int argc, char **argv)
 	graph = read_graph(map);
 	if (!is_reachable(graph))
 		error();
-	ants = create_ants(map[0]);
+	ants = create_ants(map[0], get_startend(graph, 1));
+	dijkstra(graph, ants[0], get_startend(graph, 2), get_startend(graph,1));
 	return (0);
 }
     
