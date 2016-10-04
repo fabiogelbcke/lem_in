@@ -31,6 +31,7 @@ t_node		**init_nodes(t_node ***graphptr, char **map, int no_nodes);
 void		walk_anthill(t_ant **ants, t_node **graph);
 int		get_startend(t_node **graph, int startend);
 void		remove_from_queue(int **queueptr, int index);
-void	dijkstra(t_node **graph, t_ant *ant, int start, int target);
+int	dijkstra(t_node **graph, t_ant *ant, int start, int target);
+int	are_ants_in_finish(t_ant **ants, int finish);
 
 #endif

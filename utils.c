@@ -87,3 +87,17 @@ t_node **init_nodes(t_node ***graphptr, char **map, int no_nodes)
 	graph[i] = NULL;
 	return (graph);
 }
+
+int	are_ants_in_finish(t_ant **ants, int finish)
+{
+	int i;
+
+	i = 0;
+	while (ants[i])
+	{
+		if (ants[i]->position != finish)
+			return (0);
+		i++;
+	}
+	return (1);
+}
