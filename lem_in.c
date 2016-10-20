@@ -167,18 +167,26 @@ int     main(int argc, char **argv)
 {
 	t_node **graph;
 	t_ant **ants;
-	int no_of_nodes;
+	int i;
 	char *str;
 	char **map;
 	
 	str = malloc(sizeof(char) * 10001);
 	read(0, str, 10000);
 	map = ft_strsplit(str, '\n');
-	//no_of_nodes = check_input(argc, map);
+	//i = check_input(argc, map);
 	graph = read_graph(map);
 	if (!is_reachable(graph))
 		error();
 	ants = create_ants(map[0], get_startend(graph, 1));
+	i = 0;
+	while (map[i])
+	{
+		ft_putstr(map[i]);
+		ft_putchar('\n');
+		i++;
+	}
+	ft_putchar('\n');
 	walk_anthill(ants, graph);
 	return (0);
 }

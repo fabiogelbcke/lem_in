@@ -89,7 +89,7 @@ void	reset_weights(t_node **graph, t_ant **ants)
 	i = 0;
 	while (graph[i])
 	{
-		graph[i]->weight = 0;
+		graph[i]->weight = 1;
 		i++;
 	}
 	i = 0;
@@ -108,7 +108,7 @@ void	move_ant(t_ant *ant,t_node **graph)
 	pos = dijkstra(graph, ant, ant->position, get_startend(graph, 2));
 	if (pos < 0)
 		return ;
-	if (pos >= 0 && (graph[pos]->weight == 0 || pos == get_startend(graph, 2)))
+	if (pos >= 0 && (graph[pos]->weight == 1 || pos == get_startend(graph, 2)))
 	{
 		graph[ant->position]->weight--;
 		ant->position = pos;
