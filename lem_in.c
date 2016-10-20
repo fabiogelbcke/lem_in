@@ -174,6 +174,96 @@ int		is_reachable(t_node **graph)
 	}
 	return is_reachable;
 }
+
+int	two_newlines_index(char *str)
+{
+	int	i;
+	int	j;
+	
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] =='\n')
+		{
+			j++;
+			if (str[i + 1] && str[i + 1] == '\n')
+				return (j);
+		}
+		i++;
+	}
+	return (j);
+}
+
+int	is_node(char *str)
+{
+	int spaces;
+	int i;
+
+	spaces = 0;
+	i = 0;
+	if (str[0] && str[0] == '#')
+		return (1);
+	if (ft_arrlen(ft_strsplit(str, ' ')) != 3)
+		return (0);
+	if (!ft_isnbr(ft_strsplit(str, ' ')[1])
+	    ||!ft_isnbr(ft_strsplit(str, ' ')[2]))
+		return (0);
+	while (str[i])
+	{
+		if(str[i] == ' ')
+			spaces++;
+		i++;
+	}
+	if (spaces > 2)
+		return (0);
+	return (1);
+}
+
+int	is_this_path(char *str)
+{
+	int dashes;
+	int i;
+
+	dashes = 0;
+	i = 0;
+	if (str[0] && str[0] == '#')
+		return (1);
+	if (ft_arrlen(ft_strsplit(str, '-')) != 2)
+		return (0);
+	while (str[i])
+	{
+		if(str[i] == '-')
+			dashes++;
+		i++;
+	}
+	if (dashes > 1)
+	{
+
+		return (0);
+	}
+	return (1);
+}
+
+
+int	error_index(char *str)
+{
+	char **map;
+	int index;
+	int i;
+
+	i = 1;
+	map = ft_strsplit(str, '\n');
+	index = two_newlines_index(str);
+	while (map[i] && is_node(map[i]))
+		i++;
+	if (!map[i] || !is_this_path(map[i]))
+		index = (index < i) ? index : i;
+	while (map[i] && is_this_path(map[i]))
+		i++;
+	index = (index < i) ? index : i;
+	return (index);
+}
  
 int     main(int argc, char **argv)
 {
@@ -185,10 +275,10 @@ int     main(int argc, char **argv)
 	int j;
 	
 	str = malloc(sizeof(char) * 10001);
-	read(0, str, 10000);
+	read(0, str, 100000);
 	map = ft_strsplit(str, '\n');
+	map[error_index(str)] = NULL;
 	graph = read_graph(map);
-	ft_putnbr(is_reachable(graph));
 	if (!is_reachable(graph))
 		error();
 	ants = create_ants(map[0], get_startend(graph, 1));
