@@ -92,13 +92,22 @@ void		remove_from_queue(int **queueptr, int index)
 {
 	int	i;
 	int	*queue;
+	int	j;
 
 	i = 0;
+	j = -1;
 	queue = *queueptr;
 	while (queue[i] != -1)
+	{
+		if (queue[i] == index)
+			j = i;
 		i++;
-	queue[index] = queue[i - 1];
-	queue[i - 1] = -1;
+	}
+	if (j != -1)
+	{
+		queue[j] = queue[i - 1];
+		queue[i - 1] = -1;
+	}
 }
 
 int		is_in_queue(int	*queue, int index)
@@ -120,21 +129,24 @@ int		transverse_children(int **queueptr, int index, t_node **graph)
 {
 	int	*queue;
 	int	j;
+	int	is_reachable;
 
 	queue = *queueptr;
 	j = 0;
+	is_reachable = 0;
 	while(graph[index]->connections[j] != -1)
 	{
+
 		if (is_in_queue(queue, graph[index]->connections[j]))
 		{
 			remove_from_queue(queueptr, graph[index]->connections[j]);
 			if (graph[graph[index]->connections[j]]->startend == 2)
 				return 1;
-			return transverse_children(queueptr, graph[index]->connections[j], graph);
+			is_reachable += transverse_children(queueptr, graph[index]->connections[j], graph);
 		}
 		j++;
 	}
-	return 0;
+	return is_reachable;;
 }
 
 int		is_reachable(t_node **graph)
@@ -170,12 +182,13 @@ int     main(int argc, char **argv)
 	int i;
 	char *str;
 	char **map;
+	int j;
 	
 	str = malloc(sizeof(char) * 10001);
 	read(0, str, 10000);
 	map = ft_strsplit(str, '\n');
-	//i = check_input(argc, map);
 	graph = read_graph(map);
+	ft_putnbr(is_reachable(graph));
 	if (!is_reachable(graph))
 		error();
 	ants = create_ants(map[0], get_startend(graph, 1));

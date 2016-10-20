@@ -9,6 +9,8 @@ t_ant		**create_ants(char *no_of_ants_str, int start)
 	if (no_of_ants_str && ft_isnbr(no_of_ants_str))
 	{
 		no_of_ants = ft_atoi(no_of_ants_str);
+		if (no_of_ants <= 0)
+			error();
 		ants = (t_ant**)malloc(sizeof(t_ant*) * (no_of_ants + 1));
 		for (i = 0; i < no_of_ants; i++)
 		{
@@ -77,7 +79,7 @@ t_node **init_nodes(t_node ***graphptr, char **map, int no_nodes)
 			graph[i] = (t_node*)malloc(sizeof(t_node));
 			graph[i]->name = ft_strsplit(map[j++], ' ')[0];
 			graph[i]->connections = (int*)malloc(sizeof(int) * (no_nodes - 1));
-			for (k = 0; k < no_nodes - 2; k++)
+			for (k = 0; k < no_nodes - 1; k++)
 				graph[i]->connections[k] = -1;
 			graph[i]->startend = startend;
 			graph[i]->weight = 1;

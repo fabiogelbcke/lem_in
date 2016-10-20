@@ -60,7 +60,7 @@ int	dijkstra(t_node **graph, t_ant *ant, int start, int target)
 
 		i = get_smallest_distance(graph, queue);
 		j = queue[i];
-		remove_from_queue(&queue, i);
+		remove_from_queue(&queue, j);
 		i = 0;
 		while (graph[j]->connections[i] != -1)
 		{
@@ -114,7 +114,7 @@ void	move_ant(t_ant *ant,t_node **graph)
 		ant->position = pos;
 		graph[pos]->weight++;
 		ft_putstr("L");
-		ft_putnbr(ant->number);
+		ft_putnbr(ant->number + 1);
 		ft_putstr("-");
 		ft_putstr(graph[pos]->name);
 		ft_putstr(" ");
