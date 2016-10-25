@@ -1,16 +1,25 @@
 # include "lem_in.h"
 
-int is_path(char *str)
+int	is_path(char *str)
 {
-	char **split;
+	int dashes;
+	int i;
 
-	split = ft_strsplit(str, '-');
-	if (ft_arrlen(split) != 2)
-		return (0);
-	else if (!ft_isnbr(split[0]) || !ft_isnbr(split[1]))
-		return (0);
-	else
+	dashes = 0;
+	i = 0;
+	if (str[0] && str[0] == '#')
 		return (1);
+	if (ft_arrlen(ft_strsplit(str, '-')) != 2)
+		return (0);
+	while (str[i])
+	{
+		if(str[i] == '-')
+			dashes++;
+		i++;
+	}
+	if (dashes > 1)
+		return (0);
+	return (1);
 }
 
 void	add_connection(t_node **graph, char *node1, char *node2)
@@ -43,10 +52,11 @@ void	add_connections(t_node **graph, char **map)
 		error();
 	while (map[i])
 	{
-
 		nodes = ft_strsplit(map[i], '-');
-		if (is_path(map[i]) && ft_arrlen(nodes) == 2 && indexofnode(graph, nodes[0]) != -1
-			    && indexofnode(graph, nodes[1]) != -1)
+		if (is_path(map[i])
+			&& ft_arrlen(nodes) == 2
+			&& indexofnode(graph, nodes[0]) != -1
+			&& indexofnode(graph, nodes[1]) != -1)
 		{
 			add_connection(graph, nodes[0], nodes[1]);
 		}
@@ -204,6 +214,8 @@ int	is_node(char *str)
 	i = 0;
 	if (str[0] && str[0] == '#')
 		return (1);
+	if (str[0] && str[0] == 'L')
+		return (0);
 	if (ft_arrlen(ft_strsplit(str, ' ')) != 3)
 		return (0);
 	if (!ft_isnbr(ft_strsplit(str, ' ')[1])
@@ -220,49 +232,70 @@ int	is_node(char *str)
 	return (1);
 }
 
-int	is_this_path(char *str)
+int node_exists(char *path, char **names)
 {
-	int dashes;
 	int i;
+	int exist;
+	char *node1;
+	char *node2;
 
-	dashes = 0;
 	i = 0;
-	if (str[0] && str[0] == '#')
-		return (1);
-	if (ft_arrlen(ft_strsplit(str, '-')) != 2)
-		return (0);
-	while (str[i])
+	node1 = ft_strsplit(path, '-')[0];
+	node2 = ft_strsplit(path, '-')[1];
+	exist = 0;
+	while (names[i])
 	{
-		if(str[i] == '-')
-			dashes++;
+		if (!ft_strcmp(node1, names[i])
+			|| !ft_strcmp(node2, names[i]))
+			exist++;
 		i++;
 	}
-	if (dashes > 1)
-	{
-
-		return (0);
-	}
-	return (1);
+	return (exist == 2);
 }
-
 
 int	error_index(char *str)
 {
 	char **map;
 	int index;
 	int i;
+	char **names;
 
 	i = 1;
 	map = ft_strsplit(str, '\n');
 	index = two_newlines_index(str);
+	names = (char**)ft_memalloc(ft_strlen(str));
 	while (map[i] && is_node(map[i]))
+	{
+		names[i - 1] = ft_strdup(ft_strsplit(map[i], ' ')[0]);
 		i++;
-	if (!map[i] || !is_this_path(map[i]))
+	}
+	if (!map[i] || !is_path(map[i]))
 		index = (index < i) ? index : i;
-	while (map[i] && is_this_path(map[i]))
+	while (map[i] && is_path(map[i]) && node_exists(map[i], names))
 		i++;
 	index = (index < i) ? index : i;
 	return (index);
+}
+
+void	check_endpoints(char **map)
+{
+	int i;
+	int starts;
+	int ends;
+
+	i = 0;
+	starts = 0;
+	ends = 0;
+	while (map[i])
+	{
+		if (!ft_strcmp(map[i], "##start"))
+			starts++;
+		else if (!ft_strcmp(map[i], "##end"))
+			ends++;
+		i++;
+	}
+	if (starts != 1 || ends != 1)
+		error();
 }
  
 int     main(int argc, char **argv)
@@ -274,11 +307,12 @@ int     main(int argc, char **argv)
 	char **map;
 	int j;
 	
-	str = malloc(sizeof(char) * 10001);
+	str = malloc(sizeof(char) * 100001);
 	read(0, str, 100000);
 	map = ft_strsplit(str, '\n');
 	map[error_index(str)] = NULL;
 	graph = read_graph(map);
+	check_endpoints(map);
 	if (!is_reachable(graph))
 		error();
 	ants = create_ants(map[0], get_startend(graph, 1));
