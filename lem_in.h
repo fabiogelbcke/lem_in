@@ -6,7 +6,7 @@
 /*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 19:30:37 by fschuber          #+#    #+#             */
-/*   Updated: 2016/10/25 19:34:45 by fschuber         ###   ########.fr       */
+/*   Updated: 2016/10/25 22:31:26 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ int					get_startend(t_node **graph, int startend);
 void				remove_from_queue(int **queueptr, int index);
 int					error_index(char *str);
 void				set_up_graph(t_node **graph, int start, int end);
+int					*create_queue(int start, int target, t_node **graph);
 
 #endif

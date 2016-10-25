@@ -6,7 +6,7 @@
 /*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 19:19:36 by fschuber          #+#    #+#             */
-/*   Updated: 2016/10/25 19:28:43 by fschuber         ###   ########.fr       */
+/*   Updated: 2016/10/25 20:33:46 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ int			node_exists(char *path, char **names)
 	char	*node2;
 
 	i = 0;
+	if (path[0] == '#')
+	{
+		if (!ft_strcmp(path, "##start") || !ft_strcmp(path, "##end"))
+			return (0);
+		else
+			return (1);
+	}
 	node1 = ft_strsplit(path, '-')[0];
 	node2 = ft_strsplit(path, '-')[1];
 	exist = 0;

@@ -5,6 +5,9 @@ FLAGS = #-Wall -Wextra -Werror -g
 SRC =	lem_in.c \
 	helper_functions.c \
 	utils.c \
+	utils2.c \
+	utils3.c \
+	utils4.c \
 	walk_anthill.c \
 
 OBJ	= $(SRC:.c=.o)

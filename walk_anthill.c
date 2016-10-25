@@ -6,7 +6,7 @@
 /*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 17:51:30 by fschuber          #+#    #+#             */
-/*   Updated: 2016/10/25 19:28:37 by fschuber         ###   ########.fr       */
+/*   Updated: 2016/10/25 22:31:09 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			get_smallest_distance(t_node **graph, int *queue)
 
 	i = 0;
 	smaller = -1;
-	distance = 99999;
+	distance = 999999;
 	while (queue[i] != -1)
 	{
 		if (graph[queue[i]]->distance < distance)
@@ -39,22 +39,15 @@ int			dijkstra(t_node **graph, t_ant *ant, int start, int target)
 	int		i;
 	int		j;
 
-	i = -1;
 	if (ant->position == target)
 		return (-1);
-	queue = malloc(sizeof(int) * (ft_nodearrlen(graph) + 1));
-	while (++i < ft_nodearrlen(graph))
-		queue[i] = i;
-	queue[i] = -1;
-	set_up_graph(graph, start, target);
+	queue = create_queue(start, target, graph);
 	while (queue[0] != -1)
 	{
-		i = get_smallest_distance(graph, queue);
-		j = queue[i];
+		j = queue[get_smallest_distance(graph, queue)];
 		remove_from_queue(&queue, j);
-		i = 0;
-		while (graph[j]->connections[i] != -1)
-		{
+		i = -1;
+		while (graph[j]->connections[++i] != -1)
 			if (graph[j]->distance + graph[graph[j]->connections[i]]->weight
 				< graph[graph[j]->connections[i]]->distance)
 			{
@@ -62,13 +55,10 @@ int			dijkstra(t_node **graph, t_ant *ant, int start, int target)
 				(graph[graph[j]->connections[i]]->distance =
 				graph[j]->distance + graph[graph[j]->connections[i]]->weight);
 			}
-			i++;
-		}
 	}
-	i = target;
-	while (graph[i]->prev != start)
-		i = graph[i]->prev;
-	return (i);
+	while (graph[target]->prev != start)
+		target = graph[target]->prev;
+	return (target);
 }
 
 void		reset_weights(t_node **graph, t_ant **ants)

@@ -6,7 +6,7 @@
 /*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 18:21:08 by fschuber          #+#    #+#             */
-/*   Updated: 2016/10/25 18:21:10 by fschuber         ###   ########.fr       */
+/*   Updated: 2016/10/25 22:11:41 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,22 @@ int			alloc_graph(char **map, t_node ***graphptr)
 	return (j);
 }
 
+void		update_node_info(t_node **node, char *nodestr,
+							int *startend, int no_nodes)
+{
+	int		k;
+
+	k = -1;
+	node[0] = (t_node*)malloc(sizeof(t_node));
+	node[0]->name = ft_strsplit(nodestr, ' ')[0];
+	node[0]->connections = (int*)malloc(sizeof(int) * (no_nodes));
+	while (++k < no_nodes)
+		node[0]->connections[k] = -1;
+	node[0]->startend = *startend;
+	node[0]->weight = 1;
+	*startend = 0;
+}
+
 t_node		**init_nodes(t_node ***graphptr, char **map, int no_nodes)
 {
 	t_node	**graph;
@@ -76,30 +92,15 @@ t_node		**init_nodes(t_node ***graphptr, char **map, int no_nodes)
 	j = 1;
 	i = 0;
 	while (i < no_nodes)
-	{
 		if (map[j][0] == '#')
 		{
-			if (!ft_strcmp(map[j], "##start"))
+			if (!ft_strcmp(map[j++], "##start"))
 				startend = 1;
-			else if (!ft_strcmp(map[j], "##end"))
+			else if (!ft_strcmp(map[j - 1], "##end"))
 				startend = 2;
-			i--;
-			j++;
 		}
 		else
-		{
-			graph[i] = (t_node*)malloc(sizeof(t_node));
-			graph[i]->name = ft_strsplit(map[j++], ' ')[0];
-			graph[i]->connections = (int*)malloc(sizeof(int) * (no_nodes - 1));
-			k = -1;
-			while (++k < no_nodes - 1)
-				graph[i]->connections[k] = -1;
-			graph[i]->startend = startend;
-			graph[i]->weight = 1;
-			startend = 0;
-		}
-		i++;
-	}
+			update_node_info(&graph[i++], map[j++], &startend, no_nodes);
 	graph[i] = NULL;
 	return (graph);
 }
