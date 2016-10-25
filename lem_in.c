@@ -1,9 +1,9 @@
-# include "lem_in.h"
+#include "lem_in.h"
 
-int	is_path(char *str)
+int			is_path(char *str)
 {
-	int dashes;
-	int i;
+	int		dashes;
+	int		i;
 
 	dashes = 0;
 	i = 0;
@@ -13,7 +13,7 @@ int	is_path(char *str)
 		return (0);
 	while (str[i])
 	{
-		if(str[i] == '-')
+		if (str[i] == '-')
 			dashes++;
 		i++;
 	}
@@ -22,11 +22,11 @@ int	is_path(char *str)
 	return (1);
 }
 
-void	add_connection(t_node **graph, char *node1, char *node2)
+void		add_connection(t_node **graph, char *node1, char *node2)
 {
-	int i;
-	int j;
-	int k;
+	int		i;
+	int		j;
+	int		k;
 
 	i = indexofnode(graph, node1);
 	j = indexofnode(graph, node2);
@@ -40,13 +40,14 @@ void	add_connection(t_node **graph, char *node1, char *node2)
 	graph[j]->connections[k] = i;
 }
 
-void	add_connections(t_node **graph, char **map)
+void		add_connections(t_node **graph, char **map)
 {
-	int i;
-	char **nodes;
+	int		i;
+	char	**nodes;
 
 	i = 0;
-	while (map[i] && (map[i][0] == '#' || ft_arrlen(ft_strsplit(map[i], ' ')) == 3))
+	while (map[i] && (map[i][0] == '#'
+		|| ft_arrlen(ft_strsplit(map[i], ' ')) == 3))
 		i++;
 	if (!map[i])
 		error();
@@ -64,34 +65,30 @@ void	add_connections(t_node **graph, char **map)
 	}
 }
 
-
-
-t_node  **read_graph(char **map)
+t_node		**read_graph(char **map)
 {
-	t_node      **graph;
-	int         no_nodes;
+	t_node	**graph;
+	int		no_nodes;
 	int		is_start_finish;
 	int		i;
 	int		j;
-	
+
 	is_start_finish = 0;
 	no_nodes = alloc_graph(map, &graph);
 	init_nodes(&graph, map, no_nodes);
 	add_connections(graph, map);
-	return graph;
+	return (graph);
 }
 
-
-
-int		get_startend(t_node **graph, int startend)
+int			get_startend(t_node **graph, int startend)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (graph[i])
 	{
 		if (graph[i]->startend == startend)
-			return i;
+			return (i);
 		i++;
 	}
 	error();
@@ -100,9 +97,9 @@ int		get_startend(t_node **graph, int startend)
 
 void		remove_from_queue(int **queueptr, int index)
 {
-	int	i;
-	int	*queue;
-	int	j;
+	int		i;
+	int		*queue;
+	int		j;
 
 	i = 0;
 	j = -1;
@@ -120,51 +117,51 @@ void		remove_from_queue(int **queueptr, int index)
 	}
 }
 
-int		is_in_queue(int	*queue, int index)
+int			is_in_queue(int *queue, int index)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (queue[i] != -1)
 	{
 		if (queue[i] == index)
-			return 1;
+			return (1);
 		else
 			i++;
 	}
 	return (0);
 }
 
-int		transverse_children(int **queueptr, int index, t_node **graph)
+int			transverse_children(int **queueptr, int index, t_node **graph)
 {
-	int	*queue;
-	int	j;
-	int	is_reachable;
+	int		*queue;
+	int		j;
+	int		is_reachable;
 
 	queue = *queueptr;
 	j = 0;
 	is_reachable = 0;
-	while(graph[index]->connections[j] != -1)
+	while (graph[index]->connections[j] != -1)
 	{
-
 		if (is_in_queue(queue, graph[index]->connections[j]))
 		{
 			remove_from_queue(queueptr, graph[index]->connections[j]);
 			if (graph[graph[index]->connections[j]]->startend == 2)
-				return 1;
-			is_reachable += transverse_children(queueptr, graph[index]->connections[j], graph);
+				return (1);
+			is_reachable += transverse_children(queueptr,
+					graph[index]->connections[j], graph);
 		}
 		j++;
 	}
-	return is_reachable;;
+	return (is_reachable);
 }
 
-int		is_reachable(t_node **graph)
+int			is_reachable(t_node **graph)
 {
-	int	i;
-	int	*queue;
-	int	j;
-	int	is_reachable;
+	int		i;
+	int		*queue;
+	int		j;
+	int		is_reachable;
 
 	i = -1;
 	is_reachable = 0;
@@ -178,23 +175,24 @@ int		is_reachable(t_node **graph)
 	{
 		remove_from_queue(&queue, graph[i]->connections[j]);
 		if (graph[graph[i]->connections[j]]->startend == 2)
-			return 1;
-		is_reachable += transverse_children(&queue, graph[i]->connections[j], graph);
+			return (1);
+		is_reachable += transverse_children(&queue,
+				graph[i]->connections[j], graph);
 		j++;
 	}
-	return is_reachable;
+	return (is_reachable);
 }
 
-int	two_newlines_index(char *str)
+int			two_newlines_index(char *str)
 {
-	int	i;
-	int	j;
-	
+	int		i;
+	int		j;
+
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
-		if (str[i] =='\n')
+		if (str[i] == '\n')
 		{
 			j++;
 			if (str[i + 1] && str[i + 1] == '\n')
@@ -205,10 +203,10 @@ int	two_newlines_index(char *str)
 	return (j);
 }
 
-int	is_node(char *str)
+int			is_node(char *str)
 {
-	int spaces;
-	int i;
+	int		spaces;
+	int		i;
 
 	spaces = 0;
 	i = 0;
@@ -219,11 +217,11 @@ int	is_node(char *str)
 	if (ft_arrlen(ft_strsplit(str, ' ')) != 3)
 		return (0);
 	if (!ft_isnbr(ft_strsplit(str, ' ')[1])
-	    ||!ft_isnbr(ft_strsplit(str, ' ')[2]))
+		|| !ft_isnbr(ft_strsplit(str, ' ')[2]))
 		return (0);
 	while (str[i])
 	{
-		if(str[i] == ' ')
+		if (str[i] == ' ')
 			spaces++;
 		i++;
 	}
@@ -232,12 +230,12 @@ int	is_node(char *str)
 	return (1);
 }
 
-int node_exists(char *path, char **names)
+int			node_exists(char *path, char **names)
 {
-	int i;
-	int exist;
-	char *node1;
-	char *node2;
+	int		i;
+	int		exist;
+	char	*node1;
+	char	*node2;
 
 	i = 0;
 	node1 = ft_strsplit(path, '-')[0];
@@ -253,12 +251,12 @@ int node_exists(char *path, char **names)
 	return (exist == 2);
 }
 
-int	error_index(char *str)
+int			error_index(char *str)
 {
-	char **map;
-	int index;
-	int i;
-	char **names;
+	char	**map;
+	int		index;
+	int		i;
+	char	**names;
 
 	i = 1;
 	map = ft_strsplit(str, '\n');
@@ -277,11 +275,11 @@ int	error_index(char *str)
 	return (index);
 }
 
-void	check_endpoints(char **map)
+void		check_endpoints(char **map)
 {
-	int i;
-	int starts;
-	int ends;
+	int		i;
+	int		starts;
+	int		ends;
 
 	i = 0;
 	starts = 0;
@@ -297,16 +295,15 @@ void	check_endpoints(char **map)
 	if (starts != 1 || ends != 1)
 		error();
 }
- 
-int     main(int argc, char **argv)
+
+int			main(int argc, char **argv)
 {
-	t_node **graph;
-	t_ant **ants;
-	int i;
-	char *str;
-	char **map;
-	int j;
-	
+	t_node	**graph;
+	t_ant	**ants;
+	int		i;
+	char	*str;
+	char	**map;
+
 	str = malloc(sizeof(char) * 100001);
 	read(0, str, 100000);
 	map = ft_strsplit(str, '\n');
@@ -327,4 +324,3 @@ int     main(int argc, char **argv)
 	walk_anthill(ants, graph);
 	return (0);
 }
-    
