@@ -107,9 +107,9 @@ int			error_index(char *str)
 		names[i - 1] = ft_strdup(ft_strsplit(map[i], ' ')[0]);
 		i++;
 	}
-	if (!map[i] || !is_path(map[i]))
+	if (!map[i] || (!is_path(map[i], names) && map[i][0] != '#'))
 		index = (index < i) ? index : i;
-	while (map[i] && is_path(map[i]) && node_exists(map[i], names))
+	while (map[i] && (is_path(map[i], names) || map[i][0] == '#'))
 		i++;
 	index = (index < i) ? index : i;
 	return (index);

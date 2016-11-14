@@ -53,24 +53,31 @@ int			indexofnode(t_node **graph, char *name)
 		return (i);
 }
 
-int			is_path(char *str)
+int			is_path(char *str, char **nodes)
 {
-	int		dashes;
 	int		i;
+	int		j;
 
-	dashes = 0;
 	i = 0;
-	if (str[0] && str[0] == '#')
-		return (1);
-	if (ft_arrlen(ft_strsplit(str, '-')) != 2)
-		return (0);
-	while (str[i])
+	while (nodes[i])
 	{
-		if (str[i] == '-')
-			dashes++;
+		j = 0;
+		if (ft_strstr(str, nodes[i]))
+		{
+			if (str == ft_strstr(str, nodes[i]))
+			{
+				if (str[ft_strlen(nodes[i])] == '-')
+					while (nodes[j])
+					{
+						if (!ft_strcmp(&str[ft_strlen(nodes[i]) + 1], nodes[j]))
+						{
+							return (1);
+						}
+						j++;
+					}
+			}
+		}
 		i++;
 	}
-	if (dashes > 1)
-		return (0);
-	return (1);
+	return (0);
 }

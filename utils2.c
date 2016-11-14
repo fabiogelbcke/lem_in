@@ -22,7 +22,11 @@ void		add_connection(t_node **graph, char *node1, char *node2)
 	j = indexofnode(graph, node2);
 	k = 0;
 	while (graph[i]->connections[k] != -1)
-		k++;
+		if (!ft_strcmp(graph[graph[i]->connections[k]]->name, node1)
+			|| !ft_strcmp(graph[graph[i]->connections[k]]->name, node2))
+			return ;
+		else
+			k++;
 	graph[i]->connections[k] = j;
 	k = 0;
 	while (graph[j]->connections[k] != -1)
@@ -30,10 +34,12 @@ void		add_connection(t_node **graph, char *node1, char *node2)
 	graph[j]->connections[k] = i;
 }
 
-void		add_connections(t_node **graph, char **map)
+void		add_connections(t_node **graph, char **map, char **names)
 {
 	int		i;
 	char	**nodes;
+	int		j;
+	int		k;
 
 	i = 0;
 	while (map[i] && (map[i][0] == '#'
@@ -43,13 +49,20 @@ void		add_connections(t_node **graph, char **map)
 		error();
 	while (map[i])
 	{
-		nodes = ft_strsplit(map[i], '-');
-		if (is_path(map[i])
-			&& ft_arrlen(nodes) == 2
-			&& indexofnode(graph, nodes[0]) != -1
-			&& indexofnode(graph, nodes[1]) != -1)
+		j = 0;
+		while (names[j])
 		{
-			add_connection(graph, nodes[0], nodes[1]);
+			k = 0;
+			if (ft_strstr(map[i], names[j])
+				&& map[i] == ft_strstr(map[i], names[j])
+				&& map[i][ft_strlen(names[j])] == '-')
+				while (names[k])
+				{
+					if (!ft_strcmp(&map[i][ft_strlen(names[j]) + 1], names[k]))
+						add_connection(graph, names[j], names[k]);
+					k++;
+				}
+			j++;
 		}
 		i++;
 	}
@@ -60,13 +73,27 @@ t_node		**read_graph(char **map)
 	t_node	**graph;
 	int		no_nodes;
 	int		is_start_finish;
+	char	**names;
 	int		i;
 	int		j;
 
 	is_start_finish = 0;
 	no_nodes = alloc_graph(map, &graph);
 	init_nodes(&graph, map, no_nodes);
-	add_connections(graph, map);
+	names = (char**)ft_memalloc(ft_arrlen(map) + 1);
+	i = 0;
+	j = 0;
+	while (map[i + 1] && is_node(map[i + 1]))
+	{
+		if (map[i + 1][0] != '#')
+		{
+			names[j] = ft_strdup(ft_strsplit(map[i + 1], ' ')[0]);
+			j++;
+		}
+		i++;
+	}
+	names[j] = NULL;
+	add_connections(graph, map, names);
 	return (graph);
 }
 
