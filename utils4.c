@@ -24,3 +24,17 @@ int			*create_queue(int start, int target, t_node **graph)
 	set_up_graph(graph, start, target);
 	return (queue);
 }
+
+int			is_in(char **str_list, char *str)
+{
+	int i;
+
+	i = 0;
+	while (str_list[i])
+	{
+		if (!ft_strcmp(str_list[i], str))
+			return (1);
+		i++;
+	}
+	return (0);
+}

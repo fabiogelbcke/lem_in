@@ -102,6 +102,8 @@ int			error_index(char *str)
 	names = (char**)ft_memalloc(ft_strlen(str));
 	while (map[i] && is_node(map[i]))
 	{
+		if (is_in(names, map[i]))
+			return (index < i) ? index : i;
 		names[i - 1] = ft_strdup(ft_strsplit(map[i], ' ')[0]);
 		i++;
 	}

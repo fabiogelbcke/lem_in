@@ -54,5 +54,6 @@ void				remove_from_queue(int **queueptr, int index);
 int					error_index(char *str);
 void				set_up_graph(t_node **graph, int start, int end);
 int					*create_queue(int start, int target, t_node **graph);
+int					is_in(char **str_list, char *str);
 
 #endif
