@@ -6,7 +6,7 @@
 /*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 19:30:37 by fschuber          #+#    #+#             */
-/*   Updated: 2016/10/25 22:31:26 by fschuber         ###   ########.fr       */
+/*   Updated: 2016/11/14 16:51:54 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int					are_ants_in_finish(t_ant **ants, int finish);
 int					is_path(char *str, char **nodes);
 int					is_node(char *str);
 void				add_connection(t_node **graph, char *node1, char *node2);
-void				add_connections(t_node **graph, char **map, char **names);
 t_node				**read_graph(char **map);
 int					get_startend(t_node **graph, int startend);
 void				remove_from_queue(int **queueptr, int index);

@@ -6,7 +6,7 @@
 /*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 18:21:25 by fschuber          #+#    #+#             */
-/*   Updated: 2016/10/25 20:11:13 by fschuber         ###   ########.fr       */
+/*   Updated: 2016/11/14 18:53:21 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,9 @@ int			is_path(char *str, char **nodes)
 				if (str[ft_strlen(nodes[i])] == '-')
 					while (nodes[j])
 					{
-						if (!ft_strcmp(&str[ft_strlen(nodes[i]) + 1], nodes[j]))
-						{
+						if (!ft_strcmp(&str[ft_strlen(nodes[i]) + 1], nodes[j])
+							&& ft_strcmp(nodes[j], nodes[i]))
 							return (1);
-						}
 						j++;
 					}
 			}

@@ -6,7 +6,7 @@
 /*   By: fschuber <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/25 19:19:36 by fschuber          #+#    #+#             */
-/*   Updated: 2016/10/29 17:07:13 by fschuber         ###   ########.fr       */
+/*   Updated: 2016/11/14 18:50:43 by fschuber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ int			error_index(char *str)
 	names = (char**)ft_memalloc(ft_strlen(str));
 	while (map[i] && is_node(map[i]))
 	{
-		if (is_in(names, map[i]))
-			return (index < i) ? index : i;
+		if (is_in(names, ft_strdup(ft_strsplit(map[i], ' ')[0])))
+			index = (index < i) ? index : i;
 		names[i - 1] = ft_strdup(ft_strsplit(map[i], ' ')[0]);
 		i++;
 	}
